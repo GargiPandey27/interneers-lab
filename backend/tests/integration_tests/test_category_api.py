@@ -1,6 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
 from bson import ObjectId
+from product.models.category import ProductCategory
 
 @pytest.fixture
 def api_client():
@@ -19,6 +20,10 @@ class TestProductCategoryAPI:
         data = response.json()
         assert data["category_name"] == "Stationery"
         assert data["description"] == "All office and school items"
+
+        category_in_db = ProductCategory.objects(category_name="Stationery").first()
+        assert category_in_db is not None
+        assert category_in_db.description == "All office and school items"
 
     def test_create_category_missing_fields(self, api_client):
         response = api_client.post("/products/categories/", {
@@ -122,3 +127,4 @@ class TestProductCategoryAPI:
         fake_id = str(ObjectId())
         response = api_client.delete(f"/products/categories/{fake_id}/")
         assert response.status_code == 404
+
