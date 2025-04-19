@@ -5,6 +5,6 @@ from product.views.product_category_views import ProductCategoryView, SingleProd
 urlpatterns = [
     path("categories/", ProductCategoryView.as_view(), name="category_list"),
     path("categories/<str:category_id>/", SingleProductCategoryView.as_view(), name="category_detail"),
-    path("", ProductController.as_view()),  
+    path("", ProductController.as_view(), name="product_list"),  
     path("<str:product_id>/", ProductController.as_view()),  
 ]
